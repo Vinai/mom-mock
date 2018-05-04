@@ -18,20 +18,12 @@ class Mock implements ControllerProviderInterface
      */
     public function connect(Application $app)
     {
-        $mock = $app["controllers_factory"];
+        $factory = $app["controllers_factory"];
+        $factory->post('/', 'Mock\RPC\Controller\Mock::handle');
+        $factory->post('/events', 'Mock\RPC\Controller\Mock::events');
+        $factory->post('/remote/{to}', 'Mock\RPC\Controller\Mock::remote');
+        $factory->post('/delegate/{to}', 'Mock\RPC\Controller\Mock::delegate');
 
-        $mock->get("/", "Mock\\Controller\\Mock::index");
-
-        $mock->post("/", "Mock\\Controller\\Mock::store");
-
-        $mock->get("/{id}", "Mock\\Controller\\Mock::show");
-
-        $mock->get("/edit/{id}", "Mock\\Controller\\Mock::edit");
-
-        $mock->put("/{id}", "Mock\\Controller\\Mock::update");
-
-        $mock->delete("/{id}", "Mock\\Controller\\Mock::destroy");
-
-        return $mock;
+        return $factory;
     }
 }

@@ -10,31 +10,39 @@
  * info@magenerds.com
  */
 
-namespace MomMock\Method;
+namespace MomMock\Controller\Backend;
 
 use Silex\Application;
 use Doctrine\DBAL\Connection;
 
 /**
- * Class AbstractMethod
- * @package MomMock\Method
+ * Class AbstractBackendController
+ * @package MomMock\Controller\Backend
  * @author  Florian Sydekum <f.sydekum@techdivision.com>
  */
-abstract class AbstractMethod implements MethodInterface
+class AbstractBackendController
 {
     /**
-     * Application
+     * @var Application
      */
-    protected $app;
+    private $app;
 
     /**
+     * AbstractBackendController constructor.
      * @param Application $app
-     * @return $this
      */
-    public function setApplication(Application $app)
-    {
+    public function __construct(
+        Application $app
+    ){
         $this->app = $app;
-        return $this;
+    }
+
+    /**
+     * @return \Twig_Environment
+     */
+    protected function getTemplateEngine()
+    {
+        return $this->app['twig'];
     }
 
     /**

@@ -18,4 +18,12 @@ CREATE TABLE `order_item` (
 	image_url VARCHAR(100),
 	json TEXT,
 	FOREIGN KEY (order_id) REFERENCES `order`(id)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
+);
+
+CREATE TABLE `integration` (
+	id VARCHAR(10) UNIQUE PRIMARY KEY,
+	url VARCHAR(60) NOT NULL,
+	secret VARCHAR(60) NOT NULL
 );

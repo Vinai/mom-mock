@@ -1,0 +1,11 @@
+pre {
+    overflow:auto;
+    height: 200px;
+}
+
+#footer {
+    position: fixed;
+    height: 100px;
+    bottom: 0;
+    width: 100%;
+}

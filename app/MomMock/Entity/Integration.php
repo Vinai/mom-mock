@@ -13,64 +13,46 @@
 namespace MomMock\Entity;
 
 /**
- * Class Order
+ * Class Integration
  * @package MomMock\Entity
  * @author  Florian Sydekum <f.sydekum@techdivision.com>
  */
-class Order extends AbstractEntity
+class Integration extends AbstractEntity
 {
     /**
      * Holds the table name
      */
-    const TABLE_NAME = 'order';
+    const TABLE_NAME = 'integration';
 
     /**
      * @var string
      */
-    private $incrementId;
+    private $id;
 
     /**
      * @var string
      */
-    private $store;
+    private $url;
 
     /**
      * @var string
      */
-    private $status;
-
-    /**
-     * @var string
-     */
-    private $statusReason;
-
-    /**
-     * @var string
-     */
-    private $originDate;
-
-    /**
-     * @var string
-     */
-    private $json;
+    private $secret;
 
     /**
      * @param [] $data
      */
     public function setData(array $data)
     {
-        $this->incrementId = $data['id'];
-        $this->store = $data['store'];
-        $this->status = $data['status'];
-        $this->statusReason = $data['status_reason'];
-        $this->originDate = $data['origin_date'];
-        $this->json = json_encode($data);
+        $this->id = $data['id'];
+        $this->url = $data['url'];
+        $this->secret = $data['secret'];
 
         return $this;
     }
 
     /**
-     * Saves an order
+     * Saves an integration
      *
      * @return string
      */
@@ -79,12 +61,9 @@ class Order extends AbstractEntity
         $this->db->createQueryBuilder()
             ->insert(sprintf("`%s`", self::TABLE_NAME))
             ->values([
-                '`increment_id`' => "'{$this->incrementId}'",
-                '`store`' => "'{$this->store}'",
-                '`status`' => "'{$this->status}'",
-                '`status_reason`' => "'{$this->statusReason}'",
-                '`origin_date`' => "'{$this->originDate}'",
-                '`json`' => "'{$this->json}'"
+                '`id`' => "'{$this->id}'",
+                '`url`' => "'{$this->url}'",
+                '`secret`' => "'{$this->secret}'"
             ])
             ->execute();
 

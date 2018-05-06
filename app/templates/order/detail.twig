@@ -1,0 +1,52 @@
+{% extends "index.twig" %}
+
+{% block content %}
+    <h2>Order #{{ order.increment_id }}</h2>
+
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">Orders</a></li>
+            <li class="breadcrumb-item active" aria-current="page">#{{ order.increment_id }}</li>
+        </ol>
+    </nav>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <span class="font-weight-bold">Increment Id: </span>{{ order.increment_id }}<br>
+                <span class="font-weight-bold">Store: </span>{{ order.store }}<br>
+                <span class="font-weight-bold">Status: </span>{{ order.status }}<br>
+                <span class="font-weight-bold">Status reason: </span>{{ order.status_reason }}<br>
+                <span class="font-weight-bold">Origin date: </span>{{ order.origin_date }}<br>
+            </div>
+            <div class="col-md-6">
+                <pre id="json">{{ order.json }}</pre>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col">Id</th>
+                        <th scope="col">Product type</th>
+                        <th scope="col">Sku</th>
+                        <th scope="col">Product name</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for item in items %}
+                        <tr>
+                            <td>{{ item.id }}</td>
+                            <td>{{ item.product_type }}</td>
+                            <td>{{ item.sku }}</td>
+                            <td>{{ item.product_name }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}

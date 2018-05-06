@@ -1,9 +1,24 @@
 <?php
+/**
+ * Copyright (c) 2018 Magenerds
+ * All rights reserved
+ *
+ * This product includes proprietary software developed at Magenerds, Germany
+ * For more information see http://www.magenerds.com/
+ *
+ * To obtain a valid license for using this software please contact us at
+ * info@magenerds.com
+ */
 
 namespace MomMock\Entity\Order;
 
 use MomMock\Entity\AbstractEntity;
 
+/**
+ * Class Item
+ * @package MomMock\Entity\Order
+ * @author  Florian Sydekum <f.sydekum@techdivision.com>
+ */
 class Item extends AbstractEntity
 {
     /**

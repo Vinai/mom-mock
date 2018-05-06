@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% block head %}
+        <link rel="stylesheet" href="{{ asset('web/css/bootstrap.min.css') }}" />
+        <link rel="stylesheet" href="{{ asset('web/css/style.css') }}" />
+        <title>Magenerds - Magento Order Management Mock</title>
+    {% endblock %}
+</head>
+<body>
+    <h1>Magenerds - Magento Order Management Mock</h1>
+    <div id="content">{% block content %}{% endblock %}</div>
+    <div id="footer">
+        {% block footer %}
+            &copy; 2018 by <a href="http://www.magenerds.com/">Magenerds</a>.
+        {% endblock %}
+    </div>
+    <script src="{{ asset('web/js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('web/js/app.js') }}"></script>
+</body>
+</html>

@@ -14,9 +14,10 @@ following functionality:
 Run the following commands to set up the mock with Valet +:
 
 ```bash
-composer update
-valet link mom
-valet secure
+composer install
+cd pub
+valet link mom --secure
+cd ..
 valet db create mom
 valet db import setup/db.sql mom
 ```

@@ -1,4 +1,14 @@
 <?php
+/**
+ * Copyright (c) 2018 Magenerds
+ * All rights reserved
+ *
+ * This product includes proprietary software developed at Magenerds, Germany
+ * For more information see http://www.magenerds.com/
+ *
+ * To obtain a valid license for using this software please contact us at
+ * info@magenerds.com
+ */
 
 namespace MomMock\Method\Sales\OrderManagement;
 
@@ -6,6 +16,11 @@ use MomMock\Method\AbstractMethod;
 use MomMock\Entity\Order;
 use MomMock\Entity\Order\Item;
 
+/**
+ * Class Create
+ * @package MomMock\Method\Sales\OrderManagement
+ * @author  Florian Sydekum <f.sydekum@techdivision.com>
+ */
 class Create extends AbstractMethod
 {
     /**
@@ -29,7 +44,7 @@ class Create extends AbstractMethod
     }
 
     /**
-     * @param $order
+     * @param $orderData
      * @return string
      */
     protected function createOrder($orderData)

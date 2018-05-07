@@ -45,6 +45,7 @@ OAuth token.
 ## Supported Messages 
 | Message | Endpoint | Description | Implemented |
 |----|----|----|----|
+| magento.service_bus.remote.register | oms | Register Remote | ✓ |
 | magento.sales.order_management.create | oms | Create a order in MCOM  | ✓ |
 | magento.sales.order_management.updated | mdc | Update Order Status in MDC | X |
 | magento.logistics.carrier_management.request_shipping_details | mdc | Request Shipping label from MDC  | X |

@@ -41,3 +41,14 @@ credentials:
 Run `bin/magento setup:upgrade --keep-generated` in your MDC instance
 to register your MDC instance to the MOM mock and to request your first
 OAuth token.
+
+## Supported Messages 
+| Message | Endpoint | Description | Implemented |
+|----|----|----|----|
+| magento.service_bus.remote.register | oms | Register Remote | ✓ |
+| magento.sales.order_management.create | oms | Create a order in MCOM  | ✓ |
+| magento.sales.order_management.updated | mdc | Update Order Status in MDC | X |
+| magento.logistics.carrier_management.request_shipping_details | mdc | Request Shipping label from MDC  | X |
+| magento.logistics.fulfillment_management.customer_shipment_done | mdc | Complete Shipment  | X |
+| magento.inventory.aggregate_stock_management.updated | mdc | Update MDC Stock  | X |
+| magento.postsales.return_management.updated | mdc | Update RMA status | X |

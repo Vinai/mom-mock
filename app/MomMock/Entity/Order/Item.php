@@ -62,11 +62,6 @@ class Item extends AbstractEntity
     private $imageUrl;
 
     /**
-     * @var string
-     */
-    private $json;
-
-    /**
      * @param [] $data
      */
     public function setData($orderId, array $data)
@@ -78,7 +73,6 @@ class Item extends AbstractEntity
         $this->sku = $data['sku'];
         $this->productName = $data['product_name'];
         $this->imageUrl = $data['image_url'];
-        $this->json = json_encode($data);
 
         return $this;
     }
@@ -99,8 +93,7 @@ class Item extends AbstractEntity
                 '`product_type`' => "'{$this->productType}'",
                 '`sku`' => "'{$this->sku}'",
                 '`product_name`' => "'{$this->productName}'",
-                '`image_url`' => "'{$this->imageUrl}'",
-                '`json`' => "'{$this->json}'"
+                '`image_url`' => "'{$this->imageUrl}'"
             ])
             ->execute();
 

@@ -12,8 +12,8 @@
 
 namespace MomMock\Controller\Backend;
 
-use Silex\Application;
 use Doctrine\DBAL\Connection;
+use Slim\Container;
 
 /**
  * Class AbstractBackendController
@@ -23,18 +23,24 @@ use Doctrine\DBAL\Connection;
 class AbstractBackendController
 {
     /**
-     * @var Application
+     * @var Connection
      */
-    private $app;
+    private $db;
+
+    /**
+     * @var \Twig_Environment
+     */
+    private $templ;
 
     /**
      * AbstractBackendController constructor.
-     * @param Application $app
+     * @param Container $container
      */
     public function __construct(
-        Application $app
+        Container $container
     ){
-        $this->app = $app;
+        $this->db = $container->get('db');
+        $this->templ = $container->get('templ');
     }
 
     /**
@@ -42,7 +48,7 @@ class AbstractBackendController
      */
     protected function getTemplateEngine()
     {
-        return $this->app['twig'];
+        return $this->templ;
     }
 
     /**
@@ -50,6 +56,6 @@ class AbstractBackendController
      */
     public function getDb()
     {
-        return $this->app['db'];
+        return $this->db;
     }
 }

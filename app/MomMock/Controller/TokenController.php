@@ -12,7 +12,8 @@
 
 namespace MomMock\Controller;
 
-use Symfony\Component\HttpFoundation\Response;
+use Slim\Http\Request;
+use Slim\Http\Response;
 
 /**
  * Class TokenController
@@ -22,12 +23,14 @@ use Symfony\Component\HttpFoundation\Response;
 class TokenController
 {
     /**
-     * @return Response
+     * @param Request $request
+     * @param Response $response
+     * @return static
      */
-    public function indexAction()
+    public function indexAction(Request $request, Response $response)
     {
-        return new Response(
-            json_encode(['access_token' => 'token']),
+        return $response->withJson(
+            ['access_token' => 'token'],
             201
         );
     }

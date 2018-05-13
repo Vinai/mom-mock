@@ -12,8 +12,8 @@
 
 namespace MomMock\Controller\Backend;
 
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
+use Slim\Http\Request;
+use Slim\Http\Response;
 
 /**
  * Class OrderController
@@ -26,9 +26,10 @@ class OrderController extends AbstractBackendController
      * Order list action
      *
      * @param Request $request
+     * @param Response $response
      * @return Response
      */
-    public function listAction(Request $request)
+    public function listAction(Request $request, Response $response)
     {
         $db = $this->getDb();
 
@@ -38,24 +39,32 @@ class OrderController extends AbstractBackendController
             ->execute()
             ->fetchAll();
 
-        $tmplEngine = $this->getTemplateEngine();
+        $templ = $this->getTemplateEngine();
 
-        return new Response($tmplEngine->render(
+        $response->write($templ->render(
             'order/list.twig',
             ['orders' => $orders]
         ));
+
+        return $response;
     }
 
     /**
      * Order detail action
      *
      * @param Request $request
-     * @param $id
+     * @param Response $response
+     * @param $params
      * @return Response
      */
-    public function detailAction(Request $request, $id)
+    public function detailAction(Request $request, Response $response, $params)
     {
         $db = $this->getDb();
+
+        $id = 0;
+        if (isset($params['id'])) {
+            $id = $params['id'];
+        }
 
         $order = $db->createQueryBuilder()
             ->select('*')
@@ -73,14 +82,16 @@ class OrderController extends AbstractBackendController
             ->execute()
             ->fetchAll();
 
-        $tmplEngine = $this->getTemplateEngine();
+        $templ = $this->getTemplateEngine();
 
-        return new Response($tmplEngine->render(
+        $response->write($templ->render(
             'order/detail.twig',
             [
                 'order' => $order,
                 'items' => $items
             ]
         ));
+
+        return $response;
     }
 }

@@ -12,10 +12,11 @@
 
 namespace MomMock\Controller;
 
-use Silex\Application;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
+use Slim\Container;
 use MomMock\Helper\MethodResolver;
+use Slim\Http\Request;
+use Slim\Http\Response;
+use Doctrine\DBAL\Connection;
 
 /**
  * Class MomController
@@ -25,38 +26,39 @@ use MomMock\Helper\MethodResolver;
 class MomController
 {
     /**
-     * @var Application
-     */
-    private $app;
-
-    /**
      * @var MethodResolver
      */
     private $methodResolver;
 
     /**
+     * @var Connection
+     */
+    private $db;
+
+    /**
      * MomController constructor.
-     * @param Application $app
+     * @param Container $container
      */
     public function __construct(
-        Application $app
+        Container $container
     ){
-        $this->app = $app;
-        $this->methodResolver = new MethodResolver();
+        $this->methodResolver = $container->get('method_resolver');
+        $this->db = $container->get('db');
     }
 
     /**
      * @param Request $request
-     * @return string|Response
+     * @param Response $response
+     * @return Response|string
      */
-    public function indexAction(Request $request)
+    public function indexAction(Request $request, Response $response)
     {
-        $data = json_decode($request->getContent(), true);
+        $data = json_decode($request->getBody(), true);
 
         if (!array_key_exists('method', $data)
             || !in_array($data['method'], $this->methodResolver->getValidMethods()))
         {
-            return new Response(
+            return $response->withJson(
                 json_encode(['error_message' => 'No valid method provided']),
                 404
             );
@@ -64,9 +66,9 @@ class MomController
 
         $responseData = $this->methodResolver
             ->getServiceClassForMethod($data['method'])
-            ->setApplication($this->app)
+            ->setDb($this->db)
             ->handleRequestData($data);
 
-        return json_encode($responseData);
+        return $response->withJson($responseData);
     }
 }

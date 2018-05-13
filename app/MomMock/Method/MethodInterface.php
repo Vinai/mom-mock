@@ -12,6 +12,8 @@
 
 namespace MomMock\Method;
 
+use Doctrine\DBAL\Connection;
+
 /**
  * Interface MethodInterface
  * @package MomMock\Method
@@ -26,4 +28,15 @@ interface MethodInterface
      * @return mixed
      */
     public function handleRequestData($data);
+
+    /**
+     * @param Connection $db
+     * @return MethodInterface
+     */
+    public function setDb(Connection $db);
+
+    /**
+     * @return Connection
+     */
+    public function getDb();
 }

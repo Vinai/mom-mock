@@ -12,7 +12,6 @@
 
 namespace MomMock\Method;
 
-use Silex\Application;
 use Doctrine\DBAL\Connection;
 
 /**
@@ -23,25 +22,24 @@ use Doctrine\DBAL\Connection;
 abstract class AbstractMethod implements MethodInterface
 {
     /**
-     * Application
+     * Connection
      */
-    protected $app;
+    protected $db;
 
     /**
-     * @param Application $app
-     * @return $this
+     * @inheritdoc
      */
-    public function setApplication(Application $app)
+    public function setDb(Connection $db)
     {
-        $this->app = $app;
+        $this->db = $db;
         return $this;
     }
 
     /**
-     * @return Connection
+     * @inheritdoc
      */
     public function getDb()
     {
-        return $this->app['db'];
+        return $this->db;
     }
 }

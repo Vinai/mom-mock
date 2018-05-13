@@ -50,11 +50,6 @@ class Order extends AbstractEntity
     private $originDate;
 
     /**
-     * @var string
-     */
-    private $json;
-
-    /**
      * @param [] $data
      */
     public function setData(array $data)
@@ -64,7 +59,6 @@ class Order extends AbstractEntity
         $this->status = $data['status'];
         $this->statusReason = $data['status_reason'];
         $this->originDate = $data['origin_date'];
-        $this->json = json_encode($data);
 
         return $this;
     }
@@ -83,8 +77,7 @@ class Order extends AbstractEntity
                 '`store`' => "'{$this->store}'",
                 '`status`' => "'{$this->status}'",
                 '`status_reason`' => "'{$this->statusReason}'",
-                '`origin_date`' => "'{$this->originDate}'",
-                '`json`' => "'{$this->json}'"
+                '`origin_date`' => "'{$this->originDate}'"
             ])
             ->execute();
 

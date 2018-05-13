@@ -17,12 +17,10 @@
         "OSL-3.0"
     ],
     "require": {
-        "silex/silex": "~2.0",
+        "slim/slim": "^3.0",
         "doctrine/dbal": "~2.5.0",
         "twig/twig": "^2.4",
-        "twbs/bootstrap": "^4.1",
-        "symfony/asset": "^3.4",
-        "symfony/twig-bridge": "^3.4"
+        "twbs/bootstrap": "^4.1"
     },
     "autoload": {
         "psr-4": {

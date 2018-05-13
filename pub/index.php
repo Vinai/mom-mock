@@ -8,65 +8,42 @@
  *
  * To obtain a valid license for using this software please contact us at
  * info@magenerds.com
- *
- * @author  Florian Sydekum <f.sydekum@techdivision.com>
  */
 
-use Silex\Application;
-use Silex\Provider\ServiceControllerServiceProvider;
-use Silex\Provider\DoctrineServiceProvider;
-use Silex\Provider\TwigServiceProvider;
-use Silex\Provider\AssetServiceProvider;
-use MomMock\Controller\MomController;
-use MomMock\Controller\TokenController;
+use Doctrine\DBAL\DriverManager;
 use MomMock\Controller\Backend\OrderController;
-//use MomMock\Rpc\Middleware\Authentication as TodoAuth;
+use MomMock\Controller\TokenController;
+use MomMock\Controller\MomController;
+use MomMock\Helper\MethodResolver;
 
-require __DIR__ . '/../vendor/autoload.php';
-$app = new Application();
+require '../vendor/autoload.php';
 
-/*$app->before(function($request, $app) {
-    TodoAuth::authenticate($request, $app);
-});*/
+$app = new \Slim\App;
 
-$app->register(new ServiceControllerServiceProvider());
-$app->register(new DoctrineServiceProvider(), [
-    'db.options' => [
-        'driver' => 'pdo_mysql',
+$container = $app->getContainer();
+
+$container['db'] = function($c) {
+    return DriverManager::getConnection([
         'dbname' => 'mom',
-        'host' => 'localhost',
         'user' => 'root',
-        'password' => 'root'
-    ],
-]);
-
-$app->register(new TwigServiceProvider(), [
-    'twig.path' => __DIR__ . '/../app/templates',
-]);
-
-$app->register(new AssetServiceProvider(), [
-    'assets.named_packages' => [
-        'css' => ['base_path' => '']
-    ],
-]);
-
-$app['mom.controller'] = function() use ($app) {
-    return new MomController($app);
-};
-$app['delegate.controller'] = function() use ($app) {
-    return new MomController($app);
-};
-$app['token.controller'] = function() use ($app) {
-    return new TokenController();
-};
-$app['backend.order.controller'] = function() use ($app) {
-    return new OrderController($app);
+        'password' => 'root',
+        'host' => 'localhost',
+        'driver' => 'pdo_mysql',
+    ]);
 };
 
-$app->post('/', 'mom.controller:indexAction');
-$app->post('/delegate/oms', 'delegate.controller:indexAction');
-$app->post('/oauth/token', 'token.controller:indexAction');
-$app->get('/', 'backend.order.controller:listAction');
-$app->get('/order/{id}', 'backend.order.controller:detailAction');
+$container['templ'] = function($c) {
+    return new Twig_Environment(new Twig_Loader_Filesystem('../app/templates'));
+};
+
+$container['method_resolver'] = function($c) {
+    return new MethodResolver();
+};
+
+$app->get('/', OrderController::class . ':listAction');
+$app->get('/order/{id}', OrderController::class . ':detailAction');
+$app->post('/', MomController::class . ':indexAction');
+$app->post('/delegate/oms', MomController::class . ':indexAction');
+$app->post('/oauth/token', TokenController::class . ':indexAction');
 
 $app->run();

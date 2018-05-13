@@ -4,8 +4,7 @@ CREATE TABLE `order` (
 	store VARCHAR(30) NOT NULL,
 	status VARCHAR(50),
 	status_reason VARCHAR(50),
-	origin_date VARCHAR(50),
-	json TEXT
+	origin_date VARCHAR(50)
 );
 
 CREATE TABLE `order_item` (
@@ -16,7 +15,6 @@ CREATE TABLE `order_item` (
 	sku VARCHAR(30),
 	product_name VARCHAR(50),
 	image_url VARCHAR(100),
-	json TEXT,
 	FOREIGN KEY (order_id) REFERENCES `order`(id)
     ON DELETE CASCADE
     ON UPDATE CASCADE

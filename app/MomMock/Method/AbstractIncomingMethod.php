@@ -15,16 +15,24 @@ namespace MomMock\Method;
 use Doctrine\DBAL\Connection;
 
 /**
- * Class AbstractMethod
+ * Class AbstractIncomingMethod
  * @package MomMock\Method
  * @author  Florian Sydekum <f.sydekum@techdivision.com>
  */
-abstract class AbstractMethod implements MethodInterface
+abstract class AbstractIncomingMethod
 {
     /**
      * Connection
      */
     protected $db;
+
+    /**
+     * Handle the incoming request and its data
+     *
+     * @param $data
+     * @return mixed
+     */
+    abstract public function handleRequestData($data);
 
     /**
      * @inheritdoc

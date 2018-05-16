@@ -1,0 +1,65 @@
+{
+  "shipment": {
+    "address": {
+      "address1": "{{address1}}",
+      "address_type": "{{address_type}}",
+      "city": "{{city}}",
+      "country_code": "{{country_code}}",
+      "custom_attributes": [],
+      "email": "{{email}}",
+      "first_name": "{{first_name}}",
+      "last_name": "{{last_name}}",
+      "latitude": "",
+      "longitude": "",
+      "reference": "",
+      "zip": "{{zip}}"
+    },
+    "items": [
+      {
+        "custom_details": [
+          {
+            "name": "imageUrl",
+            "value": ""
+          }
+        ],
+        "image_url": "",
+        "item_type": "",
+        "name": "{{product_name}}",
+        "order_line_id": "{{id}}",
+        "order_line_number": "{{line_number}}",
+        "order_line_price": "{{}}",
+        "sku": "{{sku}}",
+        "status": "SHIPPED",
+        "status_reason": "OSREPORT"
+      }
+    ],
+    "method": "STANDARD",
+    "order_id": "{{increment_id}}",
+    "packages": [
+      {
+        "aggregated_items": [
+          {
+            "aggregated_line_id": "{{id}}",
+            "order_lines": [
+              "{{id}}"
+            ],
+            "quantity": 1,
+            "sku": "{{sku}}"
+          }
+        ],
+        "carrier": "DHL ",
+        "details": [],
+        "id": "",
+        "items": [
+          "{{line_number}}"
+        ],
+        "tracking_comment": "",
+        "tracking_link": "",
+        "tracking_number": ""
+      }
+    ],
+    "shipment_id": "",
+    "source_id": "MINDELHEIM",
+    "store_id": "B2C_DE"
+  }
+}

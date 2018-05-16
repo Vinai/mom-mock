@@ -14,6 +14,8 @@ namespace MomMock\Controller\Backend;
 
 use Doctrine\DBAL\Connection;
 use Slim\Container;
+use MomMock\Helper\MethodResolver;
+use MomMock\Helper\TemplateHelper;
 
 /**
  * Class AbstractBackendController
@@ -33,6 +35,16 @@ class AbstractBackendController
     private $templ;
 
     /**
+     * @var MethodResolver
+     */
+    private $methodResolver;
+
+    /**
+     * @var TemplateHelper
+     */
+    private $templateHelper;
+
+    /**
      * AbstractBackendController constructor.
      * @param Container $container
      */
@@ -41,6 +53,8 @@ class AbstractBackendController
     ){
         $this->db = $container->get('db');
         $this->templ = $container->get('templ');
+        $this->methodResolver = $container->get('method_resolver');
+        $this->templateHelper = $container->get('template_helper');
     }
 
     /**
@@ -57,5 +71,21 @@ class AbstractBackendController
     public function getDb()
     {
         return $this->db;
+    }
+
+    /**
+     * @return MethodResolver
+     */
+    public function getMethodResolver()
+    {
+        return $this->methodResolver;
+    }
+
+    /**
+     * @return TemplateHelper
+     */
+    public function getTemplateHelper()
+    {
+        return $this->templateHelper;
     }
 }

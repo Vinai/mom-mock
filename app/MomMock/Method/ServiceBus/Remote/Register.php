@@ -12,7 +12,7 @@
 
 namespace MomMock\Method\ServiceBus\Remote;
 
-use MomMock\Method\AbstractMethod;
+use MomMock\Method\AbstractIncomingMethod;
 use MomMock\Entity\Integration;
 
 /**
@@ -20,7 +20,7 @@ use MomMock\Entity\Integration;
  * @package MomMock\Method\ServiceBus\Remote
  * @author  Florian Sydekum <f.sydekum@techdivision.com>
  */
-class Register extends AbstractMethod
+class Register extends AbstractIncomingMethod
 {
     /**
      * @inheritdoc

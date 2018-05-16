@@ -25,40 +25,16 @@ class Order extends AbstractEntity
     const TABLE_NAME = 'order';
 
     /**
-     * @var string
+     * @var []
      */
-    private $incrementId;
-
-    /**
-     * @var string
-     */
-    private $store;
-
-    /**
-     * @var string
-     */
-    private $status;
-
-    /**
-     * @var string
-     */
-    private $statusReason;
-
-    /**
-     * @var string
-     */
-    private $originDate;
+    private $data;
 
     /**
      * @param [] $data
      */
     public function setData(array $data)
     {
-        $this->incrementId = $data['id'];
-        $this->store = $data['store'];
-        $this->status = $data['status'];
-        $this->statusReason = $data['status_reason'];
-        $this->originDate = $data['origin_date'];
+        $this->data = $data;
 
         return $this;
     }
@@ -70,14 +46,24 @@ class Order extends AbstractEntity
      */
     public function save()
     {
+        $address = $this->data['addresses'][0];
+
         $this->db->createQueryBuilder()
             ->insert(sprintf("`%s`", self::TABLE_NAME))
             ->values([
-                '`increment_id`' => "'{$this->incrementId}'",
-                '`store`' => "'{$this->store}'",
-                '`status`' => "'{$this->status}'",
-                '`status_reason`' => "'{$this->statusReason}'",
-                '`origin_date`' => "'{$this->originDate}'"
+                '`increment_id`' => "'{$this->data['id']}'",
+                '`store`' => "'{$this->data['store']}'",
+                '`status`' => "'{$this->data['status']}'",
+                '`status_reason`' => "'{$this->data['status_reason']}'",
+                '`origin_date`' => "'{$this->data['origin_date']}'",
+                '`address_type`' => "'{$address['address_type']}'",
+                '`first_name`' => "'{$address['first_name']}'",
+                '`last_name`' => "'{$address['last_name']}'",
+                '`address1`' => "'{$address['address1']}'",
+                '`city`' => "'{$address['city']}'",
+                '`zip`' => "'{$address['zip']}'",
+                '`country_code`' => "'{$address['country_code']}'",
+                '`email`' => "'{$address['email']}'"
             ])
             ->execute();
 

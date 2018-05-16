@@ -4,7 +4,15 @@ CREATE TABLE `order` (
 	store VARCHAR(30) NOT NULL,
 	status VARCHAR(50),
 	status_reason VARCHAR(50),
-	origin_date VARCHAR(50)
+	origin_date VARCHAR(50),
+  address_type VARCHAR(30),
+  first_name VARCHAR(50),
+  last_name VARCHAR(50),
+  address1 VARCHAR(80),
+  city VARCHAR(80),
+  zip VARCHAR(10),
+  country_code VARCHAR(10),
+  email VARCHAR(50)
 );
 
 CREATE TABLE `order_item` (
@@ -15,6 +23,7 @@ CREATE TABLE `order_item` (
 	sku VARCHAR(30),
 	product_name VARCHAR(50),
 	image_url VARCHAR(100),
+	order_line_price TEXT,
 	FOREIGN KEY (order_id) REFERENCES `order`(id)
     ON DELETE CASCADE
     ON UPDATE CASCADE

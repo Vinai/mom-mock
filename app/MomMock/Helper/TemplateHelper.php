@@ -15,11 +15,11 @@ namespace MomMock\Helper;
 use MomMock\Method\AbstractIncomingMethod;
 
 /**
- * Class MethodResolver
+ * Class TemplateHelper
  * @package MomMock\Helper
  * @author  Florian Sydekum <f.sydekum@techdivision.com>
  */
-class MethodResolver
+class TemplateHelper
 {
     /**
      * Holds the namespace for method service classes

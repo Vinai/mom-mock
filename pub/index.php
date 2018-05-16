@@ -12,9 +12,11 @@
 
 use Doctrine\DBAL\DriverManager;
 use MomMock\Controller\Backend\OrderController;
+use MomMock\Controller\Backend\ShipmentController;
 use MomMock\Controller\TokenController;
 use MomMock\Controller\MomController;
 use MomMock\Helper\MethodResolver;
+use MomMock\Helper\TemplateHelper;
 
 require '../vendor/autoload.php';
 
@@ -40,8 +42,13 @@ $container['method_resolver'] = function($c) {
     return new MethodResolver();
 };
 
+$container['template_helper'] = function($c) {
+    return new TemplateHelper();
+};
+
 $app->get('/', OrderController::class . ':listAction');
 $app->get('/order/{id}', OrderController::class . ':detailAction');
+$app->get('/shipment/create', ShipmentController::class . ':createShipmentAction');
 $app->post('/', MomController::class . ':indexAction');
 $app->post('/delegate/oms', MomController::class . ':indexAction');
 $app->post('/oauth/token', TokenController::class . ':indexAction');

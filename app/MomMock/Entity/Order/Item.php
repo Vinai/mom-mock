@@ -27,52 +27,17 @@ class Item extends AbstractEntity
     const TABLE_NAME = 'order_item';
 
     /**
-     * @var string
+     * @var []
      */
-    private $orderId;
-
-    /**
-     * @var string
-     */
-    private $id;
-
-    /**
-     * @var string
-     */
-    private $lineNumber;
-
-    /**
-     * @var string
-     */
-    private $productType;
-
-    /**
-     * @var string
-     */
-    private $sku;
-
-    /**
-     * @var string
-     */
-    private $productName;
-
-    /**
-     * @var string
-     */
-    private $imageUrl;
+    private $data;
 
     /**
      * @param [] $data
      */
     public function setData($orderId, array $data)
     {
-        $this->orderId = $orderId;
-        $this->id = $data['id'];
-        $this->lineNumber = $data['line_number'];
-        $this->productType = $data['product_type'];
-        $this->sku = $data['sku'];
-        $this->productName = $data['product_name'];
-        $this->imageUrl = $data['image_url'];
+        $this->data = $data;
+        $this->data['order_id'] = $orderId;
 
         return $this;
     }
@@ -84,16 +49,19 @@ class Item extends AbstractEntity
      */
     public function save()
     {
+        $amount = json_encode($this->data['amount']);
+
         $this->db->createQueryBuilder()
             ->insert(sprintf("`%s`", self::TABLE_NAME))
             ->values([
-                '`order_id`' => "'{$this->orderId}'",
-                '`id`' => "'{$this->id}'",
-                '`line_number`' => "'{$this->lineNumber}'",
-                '`product_type`' => "'{$this->productType}'",
-                '`sku`' => "'{$this->sku}'",
-                '`product_name`' => "'{$this->productName}'",
-                '`image_url`' => "'{$this->imageUrl}'"
+                '`order_id`' => "'{$this->data['order_id']}'",
+                '`id`' => "'{$this->data['id']}'",
+                '`line_number`' => "'{$this->data['line_number']}'",
+                '`product_type`' => "'{$this->data['product_type']}'",
+                '`sku`' => "'{$this->data['sku']}'",
+                '`product_name`' => "'{$this->data['product_name']}'",
+                '`image_url`' => "'{$this->data['image_url']}'",
+                '`order_line_price`' => "'{$amount}'"
             ])
             ->execute();
 

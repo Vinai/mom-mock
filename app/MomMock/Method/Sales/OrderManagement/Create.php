@@ -12,7 +12,7 @@
 
 namespace MomMock\Method\Sales\OrderManagement;
 
-use MomMock\Method\AbstractMethod;
+use MomMock\Method\AbstractIncomingMethod;
 use MomMock\Entity\Order;
 use MomMock\Entity\Order\Item;
 
@@ -21,7 +21,7 @@ use MomMock\Entity\Order\Item;
  * @package MomMock\Method\Sales\OrderManagement
  * @author  Florian Sydekum <f.sydekum@techdivision.com>
  */
-class Create extends AbstractMethod
+class Create extends AbstractIncomingMethod
 {
     /**
      * @inheritdoc

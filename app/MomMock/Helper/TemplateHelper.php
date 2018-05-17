@@ -12,8 +12,6 @@
 
 namespace MomMock\Helper;
 
-use MomMock\Method\AbstractIncomingMethod;
-
 /**
  * Class TemplateHelper
  * @package MomMock\Helper
@@ -22,71 +20,27 @@ use MomMock\Method\AbstractIncomingMethod;
 class TemplateHelper
 {
     /**
-     * Holds the namespace for method service classes
+     * Holds the methods template directory
      */
-    const METHOD_NAMESPACE = 'MomMock\\Method';
+    const TEMPLATE_DIR = __DIR__
+        . DIRECTORY_SEPARATOR
+        . '..'
+        . DIRECTORY_SEPARATOR
+        . '..'
+        . DIRECTORY_SEPARATOR
+        . 'templates'
+        . DIRECTORY_SEPARATOR
+        . 'methods'
+        . DIRECTORY_SEPARATOR;
 
     /**
-     * Holds valid incoming method names which can be handled by this mock
-     */
-    const VALID_INCOMING_METHODS = [
-        'magento.service_bus.remote.register',
-        'magento.sales.order_management.create'
-    ];
-
-    /**
-     * Parses a given method and returns its service class
+     * Returns the method template for a given method
      *
-     * @param string $method
-     * @return AbstractIncomingMethod
+     * @param $method
+     * @return bool|string
      */
-    public function getServiceClassForMethod(string $method)
+    public function getTemplateForMethod($method)
     {
-        $classParts = explode('.', $method);
-
-        // throw away the first key 'magento'
-        array_shift($classParts);
-
-        $className = self::METHOD_NAMESPACE;
-
-        foreach ($classParts as $part) {
-            $className .= '\\' . str_replace(' ', '', ucwords(str_replace('_', ' ', $part)));
-        }
-
-        if (!class_exists($className)) {
-            throw new \Exception('Method service class could not be found: ' . $className);
-        }
-
-        return new $className();
-    }
-
-    /**
-     * Parses a given service class name and returns its method name
-     *
-     * @param string $className
-     * @return string
-     */
-    public function getMethodForServiceClass(string $className)
-    {
-        $methodParts = explode('\\', str_replace(self::METHOD_NAMESPACE . '\\', '', $className));
-
-        // add the first key 'magento'
-        $methodName = 'magento';
-
-        foreach ($methodParts as $part) {
-            $methodName .= '.' . strtolower(preg_replace('/(?<!^)[A-Z]/', '_$0', $part));
-        }
-
-        return $methodName;
-    }
-
-    /**
-     * Returns an array of valid method names which can be handled by this mock
-     *
-     * @return []
-     */
-    public function getValidMethods()
-    {
-        return self::VALID_INCOMING_METHODS;
+        return file_get_contents(self::TEMPLATE_DIR . $method . '.json');
     }
 }

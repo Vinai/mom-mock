@@ -16,6 +16,7 @@ use Doctrine\DBAL\Connection;
 use Slim\Container;
 use MomMock\Helper\MethodResolver;
 use MomMock\Helper\TemplateHelper;
+use MomMock\Helper\RpcClient;
 
 /**
  * Class AbstractBackendController
@@ -45,6 +46,11 @@ class AbstractBackendController
     private $templateHelper;
 
     /**
+     * @var RpcClient
+     */
+    private $rpcClient;
+
+    /**
      * AbstractBackendController constructor.
      * @param Container $container
      */
@@ -55,6 +61,7 @@ class AbstractBackendController
         $this->templ = $container->get('templ');
         $this->methodResolver = $container->get('method_resolver');
         $this->templateHelper = $container->get('template_helper');
+        $this->rpcClient = $container->get('rpc_client');
     }
 
     /**
@@ -87,5 +94,13 @@ class AbstractBackendController
     public function getTemplateHelper()
     {
         return $this->templateHelper;
+    }
+
+    /**
+     * @return RpcClient
+     */
+    public function getRpcClient()
+    {
+        return $this->rpcClient;
     }
 }

@@ -17,6 +17,7 @@ use MomMock\Controller\TokenController;
 use MomMock\Controller\MomController;
 use MomMock\Helper\MethodResolver;
 use MomMock\Helper\TemplateHelper;
+use MomMock\Helper\RpcClient;
 
 require '../vendor/autoload.php';
 
@@ -44,6 +45,10 @@ $container['method_resolver'] = function($c) {
 
 $container['template_helper'] = function($c) {
     return new TemplateHelper();
+};
+
+$container['rpc_client'] = function($c) {
+    return new RpcClient($c->get('db'));
 };
 
 $app->get('/', OrderController::class . ':listAction');

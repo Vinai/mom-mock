@@ -15,6 +15,7 @@ namespace MomMock\Method;
 use Doctrine\DBAL\Connection;
 use MomMock\Helper\MethodResolver;
 use MomMock\Helper\TemplateHelper;
+use MomMock\Helper\RpcClient;
 
 /**
  * Class AbstractOutgoingMethod
@@ -39,19 +40,27 @@ abstract class AbstractOutgoingMethod
     protected $templateHelper;
 
     /**
+     * @var RpcClient
+     */
+    protected $rpcClient;
+
+    /**
      * AbstractOutgoingMethod constructor.
      * @param Connection $db
      * @param MethodResolver $methodResolver
      * @param TemplateHelper $templateHelper
+     * @param RpcClient $rpcClient
      */
     public function __construct(
         Connection $db,
         MethodResolver $methodResolver,
-        TemplateHelper $templateHelper
+        TemplateHelper $templateHelper,
+        RpcClient $rpcClient
     ){
         $this->db = $db;
         $this->methodResolver = $methodResolver;
         $this->templateHelper = $templateHelper;
+        $this->rpcClient = $rpcClient;
     }
 
     /**

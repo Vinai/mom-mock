@@ -41,10 +41,16 @@ class ShipmentController extends AbstractBackendController
         $customerShipmentDone = new CustomerShipmentDone(
             $this->getDb(),
             $this->getMethodResolver(),
-            $this->getTemplateHelper()
+            $this->getTemplateHelper(),
+            $this->getRpcClient()
         );
-        $customerShipmentDone->send($params);
 
-        return $response;
+        try {
+            $result = $customerShipmentDone->send($params);
+        } catch (\Exception $e) {
+            return $response->withStatus(500, $e->getMessage());
+        }
+
+        return $response->write($result);
     }
 }

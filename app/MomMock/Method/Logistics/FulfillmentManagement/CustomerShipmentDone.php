@@ -38,12 +38,16 @@ class CustomerShipmentDone extends AbstractOutgoingMethod
             ->execute()
             ->fetch();
 
+        $queryBuilder = $this->db->createQueryBuilder();
         $orComposite = new CompositeExpression(CompositeExpression::TYPE_OR);
+
+        $i = 1;
         foreach ($orderItemIds as $orderItemId) {
-            $orComposite->add('`id` = ' . $orderItemId);
+            $orComposite->add('`id` = :order_item_id' . $i);
+            $queryBuilder->setParameter('order_item_id' . $i++, $orderItemId);
         }
 
-        $orderItems = $this->db->createQueryBuilder()
+        $orderItems = $queryBuilder
             ->select('*')
             ->from('`order_item`')
             ->where($orComposite)

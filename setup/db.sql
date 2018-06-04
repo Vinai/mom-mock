@@ -12,7 +12,9 @@ CREATE TABLE `order` (
   city VARCHAR(80),
   zip VARCHAR(10),
   country_code VARCHAR(10),
-  email VARCHAR(50)
+  email VARCHAR(50),
+  segment VARCHAR(10),
+  type VARCHAR(10)
 );
 
 CREATE TABLE `order_item` (
@@ -24,6 +26,7 @@ CREATE TABLE `order_item` (
 	product_name VARCHAR(50),
 	image_url VARCHAR(100),
 	order_line_price TEXT,
+	status VARCHAR(30),
 	FOREIGN KEY (order_id) REFERENCES `order`(id)
     ON DELETE CASCADE
     ON UPDATE CASCADE

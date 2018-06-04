@@ -17,8 +17,17 @@
                     <h5 class="card-header">General Information</h5>
                     <div class="card-body">
                         <span class="font-weight-bold">Increment Id: </span>{{ order.increment_id }}<br>
+                        <span class="font-weight-bold">Customer: </span>{{ order.first_name }} {{ order.last_name }}<br>
+                        <span class="font-weight-bold">Email: </span>{{ order.email }}<br>
                         <span class="font-weight-bold">Store: </span>{{ order.store }}<br>
-                        <span class="font-weight-bold">Status: </span>{{ order.status }}<br>
+                        <span class="font-weight-bold">Status: </span>
+                            {% if order.status == 'new' or order.status == 'complete' %}
+                                <span class="badge badge-success">
+                            {% endif %}
+                            {% if order.status == 'cancelled' %}
+                                <span class="badge badge-danger">
+                            {% endif %}
+                            {{ order.status }}</span><br>
                         <span class="font-weight-bold">Status reason: </span>{{ order.status_reason }}<br>
                         <span class="font-weight-bold">Origin date: </span>{{ order.origin_date }}<br>
                     </div>
@@ -43,13 +52,14 @@
                         <th scope="col">Product type</th>
                         <th scope="col">Sku</th>
                         <th scope="col">Product name</th>
+                        <th scope="col">Status</th>
                     </tr>
                     </thead>
                     <tbody>
                     {% for item in items %}
                         <tr>
                             <td>
-                                {% if item.id != 'SHIPPING' %}
+                                {% if item.id != 'SHIPPING' and item.status == 'new' %}
                                 <div class="form-check">
                                     <input type="checkbox" class="form-check-input" id="check_{{ item.id }}">
                                 </div>
@@ -59,6 +69,20 @@
                             <td>{{ item.product_type }}</td>
                             <td>{{ item.sku }}</td>
                             <td>{{ item.product_name }}</td>
+                            <td>
+                                {% if item.id != 'SHIPPING' %}
+                                    {% if item.status == 'new' %}
+                                        <span class="badge badge-success">
+                                    {% endif %}
+                                    {% if item.status == 'cancelled' %}
+                                        <span class="badge badge-danger">
+                                    {% endif %}
+                                    {% if item.status == 'shipped' %}
+                                        <span class="badge badge-warning">
+                                    {% endif %}
+                                    {{ item.status }}</span>
+                                {% endif %}
+                            </td>
                         </tr>
                     {% endfor %}
                     </tbody>

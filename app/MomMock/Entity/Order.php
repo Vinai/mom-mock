@@ -20,6 +20,13 @@ namespace MomMock\Entity;
 class Order extends AbstractEntity
 {
     /**
+     * Item status
+     */
+    const STATUS_NEW = 'new';
+    const STATUS_COMPLETE = 'complete';
+    const STATUS_CANCELLED = 'cancelled';
+
+    /**
      * Holds the table name
      */
     const TABLE_NAME = 'order';
@@ -63,7 +70,9 @@ class Order extends AbstractEntity
                 '`city`' => "'{$address['city']}'",
                 '`zip`' => "'{$address['zip']}'",
                 '`country_code`' => "'{$address['country_code']}'",
-                '`email`' => "'{$address['email']}'"
+                '`email`' => "'{$address['email']}'",
+                '`segment`' => "'{$this->data['segment']}'",
+                '`type`' => "'{$this->data['type']}'"
             ])
             ->execute();
 

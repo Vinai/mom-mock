@@ -50,6 +50,7 @@ class Create extends AbstractIncomingMethod
     protected function createOrder($orderData)
     {
         $order = new Order($this->getDb());
+        $orderData['status'] = Order::STATUS_NEW;
         return $order->setData($orderData)->save();
     }
 
@@ -61,6 +62,7 @@ class Create extends AbstractIncomingMethod
     protected function createOrderItem($orderId, $itemData)
     {
         $item = new Item($this->getDb());
+        $itemData['status'] = Item::STATUS_NEW;
         return $item->setData($orderId, $itemData)->save();
     }
 }

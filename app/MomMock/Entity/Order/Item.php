@@ -22,6 +22,13 @@ use MomMock\Entity\AbstractEntity;
 class Item extends AbstractEntity
 {
     /**
+     * Item status
+     */
+    const STATUS_NEW = 'new';
+    const STATUS_SHIPPED = 'shipped';
+    const STATUS_CANCELLED = 'cancelled';
+
+    /**
      * Holds the table name
      */
     const TABLE_NAME = 'order_item';
@@ -61,7 +68,8 @@ class Item extends AbstractEntity
                 '`sku`' => "'{$this->data['sku']}'",
                 '`product_name`' => "'{$this->data['product_name']}'",
                 '`image_url`' => "'{$this->data['image_url']}'",
-                '`order_line_price`' => "'{$amount}'"
+                '`order_line_price`' => "'{$amount}'",
+                '`status`' => "'{$this->data['status']}'"
             ])
             ->execute();
 

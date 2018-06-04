@@ -14,6 +14,9 @@ namespace MomMock\Method\Logistics\FulfillmentManagement;
 
 use MomMock\Method\AbstractOutgoingMethod;
 use Doctrine\DBAL\Query\Expression\CompositeExpression;
+use MomMock\Entity\Order\Item;
+use MomMock\Entity\Order;
+use MomMock\Method\Sales\OrderManagement\Updated;
 
 /**
  * Class CustomerShipmentDone
@@ -90,6 +93,72 @@ class CustomerShipmentDone extends AbstractOutgoingMethod
         $shipmentData['shipment']['packages'][0]['aggregated_items'] = $aggregatedItems;
         $shipmentData['shipment']['packages'][0]['items'] = $packageItems;
 
-        return $this->rpcClient->send($shipmentData, $method);
+        $result = $this->rpcClient->send($shipmentData, $method);
+
+        $this->setShippedStatus($orderItemIds);
+        $this->checkForCompleteStatus($orderId);
+
+        return $result;
+    }
+
+    /**
+     * Set shipped status to order items
+     *
+     * @param $orderItemIds
+     */
+    protected function setShippedStatus($orderItemIds)
+    {
+        $queryBuilder = $this->db->createQueryBuilder();
+        $orComposite = new CompositeExpression(CompositeExpression::TYPE_OR);
+
+        $i = 1;
+        foreach ($orderItemIds as $orderItemId) {
+            $orComposite->add('`id` = :order_item_id' . $i);
+            $queryBuilder->setParameter('order_item_id' . $i++, $orderItemId);
+        }
+
+        $queryBuilder->update('order_item', 'oi')
+            ->set('oi.status', ':status')
+            ->setParameter(':status', Item::STATUS_SHIPPED)
+            ->where($orComposite)
+            ->execute();
+    }
+
+    /**
+     * Checks if order is complete, sets its status and sends the complete message
+     *
+     * @param $orderId
+     */
+    protected function checkForCompleteStatus($orderId)
+    {
+        $orderItems = $this->db->createQueryBuilder()
+            ->select('*')
+            ->from('`order_item`')
+            ->where('`order_id` = ?')
+            ->setParameter(0, $orderId)
+            ->execute()
+            ->fetchAll();
+
+        foreach ($orderItems as $item) {
+            if ($item['id'] == 'SHIPPING') continue;
+            if ($item['status'] == Item::STATUS_NEW) return;
+        }
+
+        $this->db->createQueryBuilder()
+            ->update('`order`')
+            ->set('status', ':status')
+            ->setParameter(':status', Order::STATUS_COMPLETE)
+            ->where('id = :order_id')
+            ->setParameter(':order_id', $orderId)
+            ->execute();
+
+        $updated = new Updated(
+            $this->db,
+            $this->methodResolver,
+            $this->templateHelper,
+            $this->rpcClient
+        );
+
+        $updated->send(['order_id' => $orderId]);
     }
 }

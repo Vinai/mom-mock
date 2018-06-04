@@ -60,6 +60,6 @@
     ],
     "shipment_id": "",
     "source_id": "MINDELHEIM",
-    "store_id": "B2C_DE"
+    "store_id": "{{order.store}}"
   }
 }

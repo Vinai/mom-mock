@@ -46,9 +46,10 @@ OAuth token.
 | Message | Endpoint | Description | Implemented |
 |----|----|----|----|
 | magento.service_bus.remote.register | oms | Register Remote | ✓ |
-| magento.sales.order_management.create | oms | Create a order in MCOM  | ✓ |
-| magento.sales.order_management.updated | mdc | Update Order Status in MDC | X |
+| magento.sales.order_management.create | oms | Create an order in MCOM  | ✓ |
+| magento.logistics.fulfillment_management.customer_shipment_done | mdc | Complete Shipment  | ✓ |
+| magento.sales.order_management.updated | mdc | Update Order Status in MDC | ✓ |
 | magento.logistics.carrier_management.request_shipping_details | mdc | Request Shipping label from MDC  | X |
-| magento.logistics.fulfillment_management.customer_shipment_done | mdc | Complete Shipment  | X |
-| magento.inventory.aggregate_stock_management.updated | mdc | Update MDC Stock  | X |
+| magento.postsales.return_management.authorize | oms | Request a RMA | X |
 | magento.postsales.return_management.updated | mdc | Update RMA status | X |
+| magento.postsales.refund_management.updated | mdc | Creates a creditmemo | X |

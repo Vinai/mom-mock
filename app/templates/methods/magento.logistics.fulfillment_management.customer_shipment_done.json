@@ -27,7 +27,20 @@
         "name": "{{order_item.product_name}}",
         "order_line_id": "{{order_item.id}}",
         "order_line_number": "{{order_item.line_number}}",
-        "order_line_price": "{{order_item.}}",
+        "order_line_price": {
+          "net_amount": "{{order_item.net_amount}}",
+          "gross_amount": "{{order_item.gross_amount}}",
+          "tax_amount": "{{order_item.taxes_amount}}",
+          "tax_rate": "{{order_item.taxes_rate}}",
+          "taxes": [
+            {
+              "type": "NO TAX",
+              "amount": "{{order_item.taxes_amount}}",
+              "rate": "{{order_item.taxes_rate}}"
+            }
+          ],
+          "currency": "EUR"
+        },
         "sku": "{{order_item.sku}}",
         "status": "SHIPPED",
         "status_reason": "OSREPORT"
@@ -53,13 +66,13 @@
         "items": [
           "{{order_item.line_number}}"
         ],
-        "tracking_comment": "",
-        "tracking_link": "",
-        "tracking_number": ""
+        "tracking_comment": "MOM Mock",
+        "tracking_link": "http://mom.mock",
+        "tracking_number": "1234567890"
       }
     ],
     "shipment_id": "",
-    "source_id": "MINDELHEIM",
+    "source_id": "XXX",
     "store_id": "{{order.store}}"
   }
 }

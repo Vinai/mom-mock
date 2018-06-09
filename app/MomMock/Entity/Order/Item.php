@@ -56,8 +56,6 @@ class Item extends AbstractEntity
      */
     public function save()
     {
-        $amount = json_encode($this->data['amount']);
-
         $this->db->createQueryBuilder()
             ->insert(sprintf("`%s`", self::TABLE_NAME))
             ->values([
@@ -68,8 +66,11 @@ class Item extends AbstractEntity
                 '`sku`' => "'{$this->data['sku']}'",
                 '`product_name`' => "'{$this->data['product_name']}'",
                 '`image_url`' => "'{$this->data['image_url']}'",
-                '`order_line_price`' => "'{$amount}'",
-                '`status`' => "'{$this->data['status']}'"
+                '`status`' => "'{$this->data['status']}'",
+                '`net_amount`' => "'{$this->data['amount']['net_amount']}'",
+                '`gross_amount`' => "'{$this->data['amount']['gross_amount']}'",
+                '`taxes_amount`' => "'{$this->data['amount']['taxes'][0]['amount']}'",
+                '`taxes_rate`' => "'{$this->data['amount']['taxes'][0]['rate']}'"
             ])
             ->execute();
 

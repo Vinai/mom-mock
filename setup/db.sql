@@ -25,8 +25,11 @@ CREATE TABLE `order_item` (
 	sku VARCHAR(30),
 	product_name VARCHAR(50),
 	image_url VARCHAR(100),
-	order_line_price TEXT,
 	status VARCHAR(30),
+	net_amount VARCHAR(30),
+	gross_amount VARCHAR(30),
+	taxes_amount VARCHAR(30),
+	taxes_rate VARCHAR(30),
 	FOREIGN KEY (order_id) REFERENCES `order`(id)
     ON DELETE CASCADE
     ON UPDATE CASCADE

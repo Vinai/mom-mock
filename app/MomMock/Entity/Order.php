@@ -71,8 +71,8 @@ class Order extends AbstractEntity
                 '`zip`' => "'{$address['zip']}'",
                 '`country_code`' => "'{$address['country_code']}'",
                 '`email`' => "'{$address['email']}'",
-                '`segment`' => "'{$this->data['segment']}'",
-                '`type`' => "'{$this->data['type']}'"
+                '`segment`' => "'{$this->data['customer']['segment']}'",
+                '`type`' => "'{$this->data['customer']['type']}'"
             ])
             ->execute();
 

@@ -56,30 +56,25 @@ class Updated extends AbstractOutgoingMethod
         // insert order item data
         $updatedData = json_decode($template, true);
 
-        $items = [];
-        $aggregatedItems = [];
-        $packageItems = [];
+        $lines = [];
+        $totalAmount = 0;
 
         foreach ($orderItems as $orderItem) {
-            $itemTemplate = json_encode($updatedData['shipment']['items'], true);
-            $aggregatedItemTemplate = json_encode($updatedData['shipment']['packages'][0]['aggregated_items'], true);
-            $packageItemTemplate = json_encode($updatedData['shipment']['packages'][0]['items'], true);
+            $lineTemplate = json_encode($updatedData['order']['lines'], true);
 
-            foreach ($orderItem as $key => $value) {
-                $itemTemplate = str_replace(sprintf('{{order_item.%s}}', $key), $value, $itemTemplate);
-                $aggregatedItemTemplate = str_replace(sprintf('{{order_item.%s}}', $key), $value, $aggregatedItemTemplate);
-                $packageItemTemplate = str_replace(sprintf('{{order_item.%s}}', $key), $value, $packageItemTemplate);
+            if ($orderItem['status'] == 'shipped') {
+                $totalAmount += $orderItem['gross_amount'];
             }
 
-            $items = array_merge($items, json_decode($itemTemplate, true));
-            $aggregatedItems = array_merge($aggregatedItems, json_decode($aggregatedItemTemplate, true));
-            $packageItems = array_merge($packageItems, json_decode($packageItemTemplate, true));
+            foreach ($orderItem as $key => $value) {
+                $lineTemplate = str_replace(sprintf('{{order_item.%s}}', $key), $value, $lineTemplate);
+            }
+
+            $lines = array_merge($lines, json_decode($lineTemplate, true));
         }
 
-        $updatedData['shipment']['items'] = $items;
-        $updatedData['shipment']['packages'][0]['aggregated_items'] = $aggregatedItems;
-        $updatedData['shipment']['packages'][0]['items'] = $packageItems;
-
+        $updatedData['order']['lines'] = $lines;
+        $updatedData['order']['payments'][0]['transactions'][0]['amount'] = $totalAmount;
         $result = $this->rpcClient->send($updatedData, $method);
 
         return $result;

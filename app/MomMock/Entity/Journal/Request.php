@@ -34,9 +34,28 @@ class Request extends AbstractEntity
     const TABLE_NAME = 'journal';
 
     /**
+     * Holds the table columns
      * @var []
      */
-    private $data;
+    private $columns = [
+        'id',
+        'delivery_id',
+        'status',
+        'topic',
+        'body',
+        'sent_at',
+        'retried_at',
+        'tries',
+        'direction',
+        'to',
+        'protocol'
+    ];
+
+
+    /**
+     * @var []
+     */
+    private $data = [];
 
     /**
      * @param $key
@@ -61,22 +80,15 @@ class Request extends AbstractEntity
      */
     public function save()
     {
+        $query = $this->db->createQueryBuilder()
+            ->insert(self::TABLE_NAME);
 
-        $this->db->createQueryBuilder()
-            ->insert(self::TABLE_NAME)
-            ->setValue('id', sprintf('"%s"', (isset($this->data['id']) ? $this->data['id'] : null)))
-            ->setValue('delivery_id', sprintf('"%s"', $this->data['delivery_id']))
-            ->setValue('status', sprintf('"%s"', $this->data['status']))
-            ->setValue('topic', sprintf('"%s"', $this->data['topic']))
-            ->setValue('body', sprintf('"%s"', $this->data['body']))
-            ->setValue('sent_at', sprintf('"%s"', $this->data['sent_at']))
-            ->setValue('retried_at', sprintf('"%s"', (isset($this->data['retried_at']) ? $this->data['retried_at'] : null)))
-            ->setValue('tries', sprintf('"%s"', (isset($this->data['tries']) ? $this->data['tries'] : 0)))
-            ->setValue('direction', sprintf('"%s"', $this->data['direction']))
-            ->setValue('to', sprintf('"%s"', $this->data['to']))
-            ->setValue('protocol', sprintf('"%s"', $this->data['protocol']))
-            ->execute();
+        foreach ($this->columns as $column) {
+            if (isset($this->data[$column])) {
+                $query->setValue("`$column`", $this->db->quote($this->data[$column]));
+            }
+        }
 
-        return $this->db->lastInsertId();
+        return $query->execute();
     }
 }

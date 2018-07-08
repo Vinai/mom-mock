@@ -16,9 +16,9 @@
                 <table class="table">
                     <thead>
                     <tr>
+                        <th scope="col">#</th>
                         <th scope="col">Sent at</th>
                         <th scope="col">Delivery ID</th>
-                        <th scope="col">Retries</th>
                         <th scope="col">Method</th>
                         <th scope="col">Endpoint</th>
                         <th scope="col">Status</th>
@@ -28,12 +28,22 @@
                     <tbody>
                     {% for request in requests %}
                         <tr>
+                            <td>{{ request.id }}</td>
                             <td>{{ request.sent_at }}</td>
                             <td>{{ request.delivery_id }}</td>
-                            <td>{{ request.tries }}</td>
                             <td>{{ request.topic }}</td>
                             <td>{{ request.to }}</td>
-                            <td>{{ request.status }}</td>
+                            <td>
+                                {% if request.status == 'SUCCESS' %}
+                                <span class="badge badge-success">
+                                {% elseif request.status == 'ERROR' %}
+                                <span class="badge badge-danger">
+                                {% else %}
+                                <span class="badge badge-warning">
+                                {% endif %}
+                                {{ request.status }}
+                                </span>
+                            </td>
                             <td><a href="/journal/{{ request.id }}">View</a></td>
                         </tr>
                     {% endfor %}

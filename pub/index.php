@@ -11,6 +11,7 @@
  */
 
 use Doctrine\DBAL\DriverManager;
+use MomMock\Controller\Backend\JournalController;
 use MomMock\Controller\Backend\OrderController;
 use MomMock\Controller\Backend\ShipmentController;
 use MomMock\Controller\TokenController;
@@ -51,8 +52,14 @@ $container['rpc_client'] = function($c) {
     return new RpcClient($c->get('db'));
 };
 
+// Order
 $app->get('/', OrderController::class . ':listAction');
 $app->get('/order/{id}', OrderController::class . ':detailAction');
+
+// API Journal
+$app->get('/journal', JournalController::class . ':indexAction');
+$app->get('/journal/{id}', JournalController::class . ':detailAction');
+
 $app->get('/shipment/create', ShipmentController::class . ':createShipmentAction');
 $app->post('/', MomController::class . ':indexAction');
 $app->post('/delegate/oms', MomController::class . ':indexAction');
